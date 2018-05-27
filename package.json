@@ -1,0 +1,18 @@
+{
+  "name": "atom-mocha-osx-test",
+  "main": "./lib/atom-mocha-osx-test",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [],
+  "repository": "https://github.com/lierdakil/atom-mocha-osx-test",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "atomTestRunner": "atom-mocha-test-runner",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "atom-mocha-test-runner": "^1.2.0"
+  }
+}
