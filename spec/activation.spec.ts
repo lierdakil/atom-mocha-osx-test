@@ -20,3 +20,14 @@ describe('Activation', function () {
     expect(window.atomMochaOSXTestPackageActivated).to.be.false
   })
 })
+
+describe('Config', function () {
+  beforeEach(async function () {
+    await atom.packages.activatePackage(path.join(__dirname, '..'))
+  })
+  it('Defines config', function () {
+    const config = atom.config.get('atom-mocha-osx-test')
+    expect(config.test).to.be.ok
+    expect(config.test).to.be.true
+  })
+})
