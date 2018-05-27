@@ -18,7 +18,11 @@ declare module 'atom' {
 
 describe('Activation', function () {
   before(async function () {
-    await atom.packages.loadPackage(path.join(__dirname, '..'))
+    const pkg = await atom.packages.loadPackage(path.join(__dirname, '..'))
+    if (!pkg.isCompatible()) {
+      const res = await pkg.rebuild()
+      console.log('Rebuild finished with', res.code, res.stdout, res.stderr)
+    }
   })
   it('starts clean', async function () {
     expect(window.atomMochaOSXTestPackageActivated).to.be.undefined
