@@ -9,15 +9,13 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "atomTestRunner": "atom-ts-spec-runner",
+  "atomTestRunner": "atom-mocha-test-runner",
   "dependencies": {
-    "@types/atom": "^1.27.0",
-    "@types/chai": "^4.1.3",
-    "@types/mocha": "^5.2.0",
-    "atom-ts-spec-runner": "^1.1.1",
+    "atom-mocha-test-runner": "latest",
     "chai": "^4.1.2",
-    "mocha": "^5.2.0",
-    "ts-node": "^6.0.5",
+    "mocha": "^5.2.0"
+  },
+  "optionalDependencies": {
     "fsevents": "*"
   }
 }
