@@ -1,14 +1,30 @@
-"use babel"
-
 import {expect} from 'chai'
-const path = require('path')
+import path = require('path')
+
+declare global {
+  interface Window {
+    atomMochaOSXTestPackageActivated: boolean
+  }
+}
+
+declare module 'atom' {
+  interface Package {
+    getIncompatibleNativeModules(): object[]
+  }
+  interface PackageManager {
+    loadPackage(path: string): Package
+  }
+}
 
 describe('Activation', function () {
+  before(async function () {
+    await atom.packages.loadPackage(path.join(__dirname, '..'))
+  })
   it('starts clean', async function () {
     expect(window.atomMochaOSXTestPackageActivated).to.be.undefined
   })
   it('activates', async function () {
-    const pkg = await atom.packages.activatePackage(path.join(__dirname, '..'))
+    const pkg = await atom.packages.activatePackage('atom-mocha-osx-test')
     console.log('\n')
     console.log('Package.isCompatible() = ', pkg.isCompatible())
     console.log('Package.getIncompatibleNativeModules() = ', pkg.getIncompatibleNativeModules())
