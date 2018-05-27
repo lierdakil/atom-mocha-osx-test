@@ -22,7 +22,7 @@ describe('Activation', function () {
 })
 
 describe('Activation2', function () {
-    beforeEach(function() {
+  beforeEach(function() {
     expect(atom.packages.isPackageActive('atom-mocha-osx-test')).to.be.false
   })
   afterEach(async function() {
@@ -46,6 +46,42 @@ describe('Activation2', function () {
   })
 })
 
+describe('Activation3', function () {
+  afterEach(async function() {
+    await atom.packages.deactivatePackage('atom-mocha-osx-test')
+    expect(window.atomMochaOSXTestPackageActivated).to.be.false
+  })
+
+  it('disables markdown-preview package', async function() {
+    atom.packages.enablePackage('markdown-preview')
+    await atom.packages.activatePackage(path.join(__dirname, '..'))
+    expect(atom.packages.isPackageDisabled('markdown-preview')).to.be.true
+  })
+
+  it('deactivates markdown-preview package', async function() {
+    await atom.packages.activatePackage('markdown-preview')
+    await atom.packages.activatePackage(path.join(__dirname, '..'))
+    await waitsFor(
+      () => atom.packages.isPackageActive('markdown-preview') === false,
+    )
+  })
+
+  describe('notifications', function() {
+    before(async () => atom.packages.activatePackage('notifications'))
+    after(async () => atom.packages.deactivatePackage('notifications'))
+
+    it('notifies about deactivation', async function() {
+      await atom.packages.activatePackage('markdown-preview')
+      await atom.packages.activatePackage(path.join(__dirname, '..'))
+      expect(
+        atom.views
+          .getView(atom.workspace)
+          .querySelector('atom-notification.info'),
+      ).to.exist
+    })
+  })
+})
+
 describe('Config', function () {
   beforeEach(async function () {
     await atom.packages.activatePackage(path.join(__dirname, '..'))
@@ -56,3 +92,30 @@ describe('Config', function () {
     expect(config.test).to.be.true
   })
 })
+
+async function waitsFor<T>(
+  func: () => T | undefined | null | Promise<T | undefined | null>,
+  timeout = 8000,
+  intervalTime = 500,
+  msg: string = func.toString(),
+): Promise<T> {
+  return new Promise<T>(function(fufill, reject) {
+    const interval = setInterval(async function() {
+      try {
+        const res = await func()
+        if (res) {
+          clearTimeout(timeoutId)
+          clearInterval(interval)
+          fufill(res)
+        }
+      } catch (e) {
+        reject(e)
+      }
+    }, intervalTime)
+
+    const timeoutId = setTimeout(function() {
+      clearInterval(interval)
+      reject(new Error('Waits for condition never met: ' + msg))
+    }, timeout)
+  })
+}
