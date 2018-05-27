@@ -21,6 +21,31 @@ describe('Activation', function () {
   })
 })
 
+describe('Activation2', function () {
+    beforeEach(function() {
+    expect(atom.packages.isPackageActive('atom-mocha-osx-test')).to.be.false
+  })
+  afterEach(async function() {
+    await atom.packages.deactivatePackage('atom-mocha-osx-test')
+    expect(window.atomMochaOSXTestPackageActivated).to.be.false
+  })
+
+  it('activates a second time', async function() {
+    await atom.packages.activatePackage(path.join(__dirname, '..'))
+    expect(atom.packages.isPackageActive('atom-mocha-osx-test')).to.be.true
+  })
+
+  it('sets the variable', async function() {
+    await atom.packages.activatePackage(path.join(__dirname, '..'))
+    expect(window.atomMochaOSXTestPackageActivated).to.be.true
+  })
+
+  it('sets the variable again', async function() {
+    await atom.packages.activatePackage(path.join(__dirname, '..'))
+    expect(window.atomMochaOSXTestPackageActivated).to.be.true
+  })
+})
+
 describe('Config', function () {
   beforeEach(async function () {
     await atom.packages.activatePackage(path.join(__dirname, '..'))
