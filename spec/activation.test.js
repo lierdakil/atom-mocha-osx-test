@@ -8,7 +8,10 @@ describe('Activation', function () {
     expect(window.atomMochaOSXTestPackageActivated).to.be.undefined
   })
   it('activates', async function () {
-    await atom.packages.activatePackage(path.join(__dirname, '..'))
+    const pkg = await atom.packages.activatePackage(path.join(__dirname, '..'))
+    console.log('\n')
+    console.log('Package.isCompatible() = ', pkg.isCompatible())
+    console.log('Package.getIncompatibleNativeModules() = ', pkg.getIncompatibleNativeModules())
     expect(window.atomMochaOSXTestPackageActivated).to.be.true
   })
   it('deactivates', async function () {
