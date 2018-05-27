@@ -1,5 +1,7 @@
+"use babel"
+
 import {expect} from 'chai'
-import path = require('path')
+const path = require('path')
 
 describe('Activation', function () {
   it('starts clean', async function () {
