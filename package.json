@@ -9,12 +9,6 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "atomTestRunner": "atom-mocha-test-runner",
-  "dependencies": {
-    "atom-mocha-test-runner": "latest",
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0"
-  },
   "optionalDependencies": {
     "fsevents": "*"
   }
