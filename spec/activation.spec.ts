@@ -1,7 +1,11 @@
-'use babel'
-
 import {expect} from 'chai'
-const path = require('path')
+import path = require('path')
+
+declare global {
+  interface Window {
+    atomMochaOSXTestPackageActivated?: boolean
+  }
+}
 
 describe('Activation', function () {
   it('starts clean', async function () {
